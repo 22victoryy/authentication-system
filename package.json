@@ -1,0 +1,33 @@
+{
+  "name": "auth",
+  "version": "1.0.0",
+  "description": "",
+  "main": "./auth/server.js",
+  "scripts": {
+    "start": "node ./auth/server.js",
+    "dev": "nodemon ./auth/server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://22victoryy@github.com/22victoryy/passport.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/22victoryy/passport/issues"
+  },
+  "homepage": "https://github.com/22victoryy/passport#readme",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "connect-flash": "^0.1.1",
+    "ejs": "^2.7.1",
+    "express": "^4.17.1",
+    "express-ejs-layouts": "^2.5.0",
+    "express-session": "^1.16.2",
+    "mongoose": "^5.6.13",
+    "nodemon": "^1.19.2",
+    "passport": "^0.4.0",
+    "passport-local": "^1.0.0"
+  }
+}
