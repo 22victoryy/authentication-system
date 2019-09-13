@@ -12,7 +12,6 @@ var db = require('../config/key').DBURI
 
 
 //db connection
-
 mongoose.connect(db, {useNewUrlParser: true})
 .then(() => console.log('mongodb connected'))
 .catch(err => console.log(err));
@@ -46,12 +45,6 @@ app.use(
 // connect flash
 app.use(flash());
 
-
-// app.use((req, res, next) => {
-//   res.locals.success_msg = req.flash('success_msg');
-//   res.locals.error_msg = req.flash('error_msg');
-//   next();
-// })
 
 app.use(function(req, res, next) {
   res.locals.success_msg = req.flash('success_msg');
