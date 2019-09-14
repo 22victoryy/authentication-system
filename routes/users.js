@@ -3,8 +3,9 @@ var router = express.Router();
 var bcrypt = require('bcryptjs')
 // call user model
 const User = require('../model/usermodel');
+var passport = require('passport');
 
-// Login 
+// Login
 router.get('/Login', (req, res) =>
   res.render("Login")
 );
@@ -98,7 +99,6 @@ router.post('/register', (req, res) => {
   }
 });
 
-module.exports = router;
 // if (err) throw err; 
 // newuser.password = hash;
 // newuser.save()
@@ -108,3 +108,18 @@ module.exports = router;
 // })
 // .catch(err => console.log(err));
 // }));
+
+// login handler
+
+router.post('/login', function(req, res, next){
+  passport.authenticate('local', {
+    successRedirect: '/bbs',
+    failureRedirect: '/users/login',
+    failureFlash: true
+  }) (req, res, next) ;
+
+
+});
+
+
+module.exports = router;
