@@ -3,6 +3,7 @@ var layouts = require('express-ejs-layouts');
 var mongoose = require('mongoose');
 var flash = require('connect-flash');
 var session = require('express-session');
+var passport = require('passport');
 
 //  need to add more featuees regarging server
 //  add dev stage
@@ -10,6 +11,8 @@ var session = require('express-session');
 //db config
 var db = require('../config/key').DBURI
 
+//passport config
+require('../config/passport')(passport);
 
 //db connection
 mongoose.connect(db, {useNewUrlParser: true})
@@ -42,6 +45,10 @@ app.use(
   })
 );
 
+// passsport middleware
+app.use(passport.initialize());
+app.use(passport.session());
+
 // connect flash
 app.use(flash());
 
@@ -49,7 +56,7 @@ app.use(flash());
 app.use(function(req, res, next) {
   res.locals.success_msg = req.flash('success_msg');
   res.locals.error_msg = req.flash('error_msg');
-  // res.locals.error = req.flash('error');
+  res.locals.error = req.flash('error');
   next();
 });
 
