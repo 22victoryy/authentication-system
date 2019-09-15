@@ -22,14 +22,14 @@ router.post('/register', (req, res) => {
   let errors = [];
 
   if (!name || !email || !password || !password2){
-    errors.push({msg: "pls enter everything"});
+    errors.push({msg: "Please enter all the fields."});
   }
 
   if (password != password2){
-    errors.push({msg: "pw does not match"});
+    errors.push({msg: "Your password does not match."});
   }
   if(password.length < 8) {
-    errors.push({msg: "pass less than 8 char"});
+    errors.push({msg: "Password needs to be at least 8 characters."});
   }
   if (errors.length > 0){
     res.render('register', {
@@ -62,22 +62,6 @@ router.post('/register', (req, res) => {
           password,
         });
       console.log(newuser);
-      // bcrypt.genSalt(10, (err, salt) => {
-      //   bcrypt.hash(newuser.password, salt, (err, hash) => {
-      //     if (err) throw err;
-      //     newuser.password = hash;
-      //     newuser
-      //       .save()
-      //       .then(user => {
-      //     //     req.flash(
-      //     //       'success_msg',
-      //     //       'You are now registered and can log in'
-      //     //     );
-      //         res.redirect('/users/login');
-      //       })
-      //       .catch(err => console.log(err));
-      //     });
-      //   });
       bcrypt.genSalt(10, (err, salt) => {
         bcrypt.hash(newuser.password, salt, (err, hash) => {
           if (err) throw err;
@@ -99,16 +83,6 @@ router.post('/register', (req, res) => {
   }
 });
 
-// if (err) throw err; 
-// newuser.password = hash;
-// newuser.save()
-// .then(user => {
-//   req.flash('success', 'you are now registered');
-//   res.redirect('users/login');
-// })
-// .catch(err => console.log(err));
-// }));
-
 // login handler
 
 router.post('/login', function(req, res, next){
@@ -117,9 +91,13 @@ router.post('/login', function(req, res, next){
     failureRedirect: '/users/login',
     failureFlash: true
   }) (req, res, next) ;
-
-
 });
 
+//l logout handler
+router.get('/logout', function(req, res){
+  req.logout();
+  req.flash('success_msg', 'y ou have successfully logged out.');
+  res.redirect('/users/login');
+});
 
 module.exports = router;

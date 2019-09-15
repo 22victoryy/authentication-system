@@ -8,51 +8,45 @@ var passport = require('passport');
 //  need to add more featuees regarging server
 //  add dev stage
 
-//db config
+// db config
 var db = require('../config/key').DBURI
 
-//passport config
+// passport config
 require('../config/passport')(passport);
 
-//db connection
+// db connection
 mongoose.connect(db, {useNewUrlParser: true})
 .then(() => console.log('mongodb connected'))
 .catch(err => console.log(err));
 
-
+// use express
 var app = express();
 
-
-// ejs
+// get views
 app.use(layouts);
 app.set('view engine', 'ejs');
 
 // bodyparser
 app.use(express.urlencoded({extended: false }));
 
-// Express session middleware
-// app.use(session({
-//   secret: 'secret',
-//   resave: true,
-//   saveUninitialized: true,
-// }));
 
-app.use(
-  session({
+app.use(session({
     secret: 'secret',
     resave: true,
     saveUninitialized: true
   })
 );
 
-// passsport middleware
+// intialise passport(middleware)
 app.use(passport.initialize());
 app.use(passport.session());
 
-// connect flash
+
+// connect flash to system to display error
 app.use(flash());
 
 
+// connect messages to flash
 app.use(function(req, res, next) {
   res.locals.success_msg = req.flash('success_msg');
   res.locals.error_msg = req.flash('error_msg');
@@ -60,11 +54,11 @@ app.use(function(req, res, next) {
   next();
 });
 
-
+// connect index, users
 app.use('/', require('../routes/index'));
 app.use('/users', require('../routes/users'));
 
-
-const port = process.env.port || 5000;
+// start the server
+const port = process.env.port || 8000;
 app.listen(port, console.log(`Server has started on port ${port}`));
 

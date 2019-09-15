@@ -1,41 +1,41 @@
-const LocalStrategy = require('passport-local').Strategy;
-const mongoose = require('mongoose');
-const bcrypt = require('bcryptjs');
+var LocalStrategy = require('passport-local').Strategy;
+var bcrypt = require('bcryptjs');
+var mongoose = require('mongoose'); // this is not used...imported for now
 
 // Load User model
-const User = require('../model/usermodel');
+var User = require('../model/usermodel');
 
 module.exports = function(passport) {
   passport.use(
-    new LocalStrategy({ usernameField: 'email' }, (email, password, done) => {
+    new LocalStrategy({ usernameField: 'email' }, (email, password, complete) => {
       // Match user
       User.findOne({
         email: email
       }).then(user => {
         if (!user) {
-          return done(null, false, { message: 'That email is not registered' });
+          return complete(null, false, { message: 'This email does not exist according to our records.' });
         }
 
         // Match password
         bcrypt.compare(password, user.password, (err, isMatch) => {
           if (err) throw err;
           if (isMatch) {
-            return done(null, user);
+            return complete(null, user);
           } else {
-            return done(null, false, { message: 'Password incorrect' });
+            return complete(null, false, { message: 'Incorrect password. Please try again.' });
           }
         });
       });
     })
   );
 
-  passport.serializeUser(function(user, done) {
-    done(null, user.id);
+  passport.serializeUser(function(user, complete) {
+    complete(null, user.id);
   });
 
-  passport.deserializeUser(function(id, done) {
+  passport.deserializeUser(function(id, complete) {
     User.findById(id, function(err, user) {
-      done(err, user);
+      complete(err, user);
     });
   });
 };
