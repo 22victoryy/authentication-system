@@ -8,3 +8,6 @@ NodeJS and its modules documentation<br>
 # Usage
 Clone this repo, change directory to this project and do npm run dev in terminal
 
+# Credits
+Node.js documentation<br>
+Node.js modules documentation<br>
